@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flaskapi-deployment
+  namespace: flaskapi-ns
+  labels:
+    app: flaskapi
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: flaskapi
+  template:
+    metadata:
+      labels:
+        app: flaskapi
+    spec:
+      containers:
+      - name: flaskapi-container
+        image: djaybob/flaskapi:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000

@@ -1,4 +1,7 @@
-FROM python:3.9
+FROM python:3.7-alpine
+
+RUN apk update
+RUN apk add python3 python3-dev py3-pip nginx
 
 RUN pip install pipenv
 
@@ -13,6 +16,8 @@ RUN pip install flower
 
 EXPOSE 8000
 
-# CMD gunicorn --worker-class gevent --workers 8 --bind 0.0.0.0:8000 wsgi:app --max-requests 10000 --timeout 5 --keep-alive 5 --log-level info
+#CMD ["gunicorn", "-w", "3", "--bind",  ":8000", "wsgi:app"]
 
-CMD python app.py
+CMD gunicorn --worker-class gevent --workers 3 --bind 0.0.0.0:8000 wsgi:app --max-requests 10000 --timeout 5 --keep-alive 5 --log-level info
+
+#CMD python app.py

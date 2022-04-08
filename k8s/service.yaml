@@ -1,0 +1,13 @@
+# service type loadbalancer
+apiVersion: v1
+kind: Service
+metadata:
+  name: flaskapi-svc
+spec:
+  selector:
+    app: flaskapi
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+  type: LoadBalancer
