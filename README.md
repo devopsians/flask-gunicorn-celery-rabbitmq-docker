@@ -46,3 +46,55 @@ how the tasks are distributed between the worker instances.
 The RabbitMQ interface [http://localhost:15672](http://0.0.0.0:15672/) with login:
 - username: rabbit_user
 - password: rabbit_password
+
+#####  auto deployment on EKS cluster using jenkins
+
+
+###### EKS cluster #######
+
+eksctl create cluster --name flask-gunicorn-celery-rabbitmq-docker --region ap-south-1 --nodegroup-name my-nodes --node-type t2.micro --managed --nodes 2 
+
+eksctl get cluster flask-gunicorn-celery-rabbitmq-docker --region ap-south-1
+
+sudo cat ~/.kube/config
+
+# add ~/.kube/config in jenkins K8s credentials  Enter ID as K8S and choose enter directly and paste the above file content and save.
+
+kubectl create clusterrolebinding cluster-system-anonymous --clusterrole=cluster-admin --user=system:anonymous
+
+eksctl get cluster --name flask-gunicorn-celery-rabbitmq-docker --region ap-south-1
+
+kubectl get nodes
+
+kubectl get ns
+
+#kubectl create deployment flask-gunicorn-celery-rabbitmq-docker --image=755345766251.dkr.ecr.ap-south-1.amazonaws.com/flaskapi-gunicorn:latest
+
+cd k8s
+
+# create
+
+kubectl apply -f namespace.yaml
+kubectl apply -f ingress.yaml
+kubectl apply -f service.yaml
+kubectl apply -f deployment.yaml
+
+# view
+kubectl get events
+kubectl get pods --namespace=flaskapi-ns
+kubectl get replicaset --namespace=flaskapi-ns
+kubectl get deployment --namespace=flaskapi-ns
+kubectl get service --namespace=flaskapi-ns
+
+## delete 
+kubectl delete -f deployment.yaml
+kubectl delete -f ingress.yaml
+kubectl delete -f namespace.yaml
+kubectl delete -f service.yaml
+
+#eksctl delete cluster --name flask-gunicorn-celery-rabbitmq-docker --region ap-south-1
+
+### Referance link for this project https://www.coachdevops.com/2020/12/deploy-python-app-docker-container-into.html
+
+
+
