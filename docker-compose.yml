@@ -17,7 +17,7 @@ services:
    ports:
     - "8000:8000"
    environment:
-     - APP_ENV=${APP_ENV}
+     - APP_ENV=Dev
    depends_on:
      - broker-rabbitmq
      - db-postgres
@@ -25,7 +25,7 @@ services:
    build: .
    command: celery -A tasks.celery worker --loglevel=info
    environment:
-     - APP_ENV=${APP_ENV}
+     - APP_ENV=Dev
    depends_on:
      - broker-rabbitmq
      - db-postgres
@@ -33,7 +33,7 @@ services:
    build: .
    command: celery -A tasks.celery worker --loglevel=info
    environment:
-     - APP_ENV=${APP_ENV}
+     - APP_ENV=Dev
    depends_on:
      - broker-rabbitmq
      - db-postgres
@@ -41,7 +41,7 @@ services:
    build: .
    command: celery -A tasks.celery beat --loglevel=info
    environment:
-     - APP_ENV=${APP_ENV}
+     - APP_ENV=Dev
    depends_on:
      - broker-rabbitmq
      - db-postgres

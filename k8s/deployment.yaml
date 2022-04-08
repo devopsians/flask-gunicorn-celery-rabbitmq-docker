@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: flaskapi-container
-        image: djaybob/flaskapi:latest
+        image: djaybob/flask-gunicorn-celery-rabbitmq-docker:latest
         imagePullPolicy: Always
         ports:
-        - containerPort: 5000
+        - containerPort: 8000
