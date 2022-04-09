@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: broker-rabbitmq
+  name: broker-rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: broker-rabbitmq
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -c
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: broker-rabbitmq
+    spec:
+      containers:
+        - env:
+            - name: RABBITMQ_DEFAULT_PASS
+              value: rabbit_password
+            - name: RABBITMQ_DEFAULT_USER
+              value: rabbit_user
+          image: rabbitmq:3.9.13-management
+          name: broker-rabbitmq
+          ports:
+            - containerPort: 15672
+          resources: {}
+      restartPolicy: Always
+status: {}

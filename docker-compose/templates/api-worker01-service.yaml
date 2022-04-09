@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: api-worker01
+  name: api-worker01
+spec:
+  ports:
+    - name: "8010"
+      port: 8010
+      targetPort: 8010
+  selector:
+    io.kompose.service: api-worker01
+status:
+  loadBalancer: {}

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: api-beat
+  name: api-beat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: api-beat
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -c
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: api-beat
+    spec:
+      containers:
+        - args:
+            - celery
+            - -A
+            - tasks.celery
+            - beat
+            - --loglevel=info
+          env:
+            - name: APP_ENV
+              value: Dev
+          image: api-beat
+          name: api-beat
+          ports:
+            - containerPort: 8030
+          resources: {}
+      restartPolicy: Always
+status: {}

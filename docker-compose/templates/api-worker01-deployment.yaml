@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: api-worker01
+  name: api-worker01
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: api-worker01
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -c
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: api-worker01
+    spec:
+      containers:
+        - args:
+            - celery
+            - -A
+            - tasks.celery
+            - worker
+            - --loglevel=info
+          env:
+            - name: APP_ENV
+              value: Dev
+          image: api-worker01
+          name: api-worker01
+          ports:
+            - containerPort: 8010
+          resources: {}
+      restartPolicy: Always
+status: {}
